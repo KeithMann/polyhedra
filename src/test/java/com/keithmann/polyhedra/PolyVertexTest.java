@@ -8,14 +8,14 @@ import org.testng.annotations.Test;
 /**
  * Created by kmann on 14-04-04.
  */
-public class VertexTest {
+public class PolyVertexTest {
 
-    Vertex vertex;
+    PolyVertex polyVertex;
     Space space;
 
     @BeforeMethod
     public void setUp() throws Exception {
-        vertex = new Vertex(new double[]{1.0,1.0,1.0});
+        polyVertex = new PolyVertex(new double[]{1.0,1.0,1.0});
     }
 
     @AfterMethod
@@ -25,18 +25,18 @@ public class VertexTest {
 
     @Test
     public void testVertexExists() throws Exception {
-         Assert.assertNotNull(vertex);
+         Assert.assertNotNull(polyVertex);
     }
 
     @Test
     public void testVertexHasCoordinates() throws Exception {
-        Assert.assertNotNull(vertex.getCoordinates());
+        Assert.assertNotNull(polyVertex.getCoordinates());
     }
 
     @Test
     public void testCoordinatesArePointInSpace() throws Exception {
         for (int i = 0; i < space.getNumberOfDimensions(); i++) {
-            Assert.assertNotNull(vertex.getCoordinate(i));
+            Assert.assertNotNull(polyVertex.getCoordinate(i));
         }
     }
 

@@ -8,17 +8,17 @@ import java.util.Collection;
 
 public class Polyhedron {
 
-    private Collection<Vertex> vertices;
+    private Collection<PolyVertex> vertices;
 
-    public Polyhedron(Collection<Vertex> vertices) {
+    public Polyhedron(Collection<PolyVertex> vertices) {
         this.vertices = vertices;
     }
 
-    public Collection<Vertex> getVertices() {
+    public Collection<PolyVertex> getVertices() {
         return vertices;
     }
 
-    public void setVertices(Collection<Vertex> vertices) {
+    public void setVertices(Collection<PolyVertex> vertices) {
         this.vertices = vertices;
     }
 

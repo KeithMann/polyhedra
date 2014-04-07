@@ -6,7 +6,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created by kmann on 14-04-04.
@@ -14,14 +13,14 @@ import java.util.Collection;
 public class PolyhedronTest {
 
 
-    Vertex vertex;
+    PolyVertex polyVertex;
     Space space;
     Polyhedron polyhedron;
 
     @BeforeMethod
     public void setUp() throws Exception {
 
-        polyhedron = new Polyhedron(new ArrayList<Vertex>() {
+        polyhedron = new Polyhedron(new ArrayList<PolyVertex>() {
         });
 
     }
