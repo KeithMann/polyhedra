@@ -1,0 +1,4 @@
+polyhedra
+=========
+
+Model, render, and traverse (face-to-face) convex polyhedra approximating spheres (truncated icosahedra-type) in Java
