@@ -12,16 +12,15 @@ import java.util.ArrayList;
  */
 public class PolyhedronTest {
 
-
+    PolyhedronType polyhedronType;
     PolyVertex polyVertex;
     Space space;
     Polyhedron polyhedron;
 
     @BeforeMethod
     public void setUp() throws Exception {
-
-        polyhedron = new Polyhedron(new ArrayList<PolyVertex>() {
-        });
+        polyhedronType = PolyhedronType.DODECAHEDRON;
+        polyhedron = new Polyhedron(polyhedronType);
 
     }
 

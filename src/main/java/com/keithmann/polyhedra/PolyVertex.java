@@ -16,7 +16,7 @@ public class PolyVertex {
         return coordinates;
     }
 
-    public double getCoordinate(int dimension){
+    public double getCoordinate(int dimension) {
         return coordinates[dimension]; //coordinates[dimension];
     }
 
