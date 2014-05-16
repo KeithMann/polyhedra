@@ -20,7 +20,7 @@ public class PolyhedronTest {
     @BeforeMethod
     public void setUp() throws Exception {
         polyhedronType = PolyhedronType.DODECAHEDRON;
-        polyhedron = new Polyhedron(polyhedronType);
+        polyhedron = PolyhedronFactory.getInstance().makePolyhedron(polyhedronType);
 
     }
 
@@ -34,8 +34,4 @@ public class PolyhedronTest {
         Assert.assertNotNull(polyhedron);
     }
 
-    @Test
-    public void testPolyhedronHasVertices() throws Exception {
-        Assert.assertNotNull(polyhedron.getVertices());
-    }
 }

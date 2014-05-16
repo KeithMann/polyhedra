@@ -21,12 +21,34 @@ public class TraversablePolyhedronFactory {
     public TraversablePolyhedron makeTraversablePolyhedron(PolyhedronType polyhedronType) {
 
         TraversablePolyhedron traversablePolyhedron;
-        traversablePolyhedron = new TraversablePolyhedron();
-        traversablePolyhedron.setPolyhedronType(polyhedronType);
-        traversablePolyhedron.setGraph(new Graph(polyhedronType));
-        traversablePolyhedron.setPolyhedron(new Polyhedron(polyhedronType));
+        traversablePolyhedron = new TraversablePolyhedron(polyhedronType);
+        traversablePolyhedron.setGraph(GraphFactory.getInstance().makeGraph(polyhedronType));
+        traversablePolyhedron.setPolyhedron(PolyhedronFactory.getInstance().makePolyhedron(polyhedronType));
+
+        switch (polyhedronType) {
+            case DODECAHEDRON:
+                assembleTraversableDodecahedron(traversablePolyhedron);
+                break;
+            case TRUNCATED_ICOSAHEDRON:
+                assembleTraversableTruncatedIcosahedron(traversablePolyhedron);
+                break;
+        }
 
         return traversablePolyhedron;
+
+    }
+
+    private void assembleTraversableDodecahedron(TraversablePolyhedron traversablePolyhedron) {
+        Polyhedron polyhedron;
+        Graph graph;
+
+        polyhedron = traversablePolyhedron.getPolyhedron();
+        graph = traversablePolyhedron.getGraph();
+
+
+    }
+
+    private void assembleTraversableTruncatedIcosahedron(TraversablePolyhedron traversablePolyhedron) {
 
     }
 }

@@ -9,6 +9,16 @@ public class TraversablePolyhedron {
     private Graph graph;
     private PolyhedronType polyhedronType;
 
+    public TraversablePolyhedron(PolyhedronType polyhedronType) {
+        this.polyhedronType = polyhedronType;
+    }
+
+    public void setPolyhedron(Polyhedron polyhedron) {
+        this.polyhedron = polyhedron;
+
+        //TODO check that polyhedron.polyhedronType = this.polyhedronType else throw exception
+    }
+    
     public Polyhedron getPolyhedron() {
         return polyhedron;
     }
@@ -17,21 +27,15 @@ public class TraversablePolyhedron {
         return graph;
     }
 
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+
+        //TODO check that graph is dual of polyhedron else throw exception
+
+    }
+
     public PolyhedronType getPolyhedronType() {
         return polyhedronType;
     }
-
-    public void setPolyhedron(Polyhedron polyhedron) {
-        this.polyhedron = polyhedron;
-    }
-
-    public void setGraph(Graph graph) {
-        this.graph = graph;
-    }
-
-    public void setPolyhedronType(PolyhedronType polyhedronType) {
-        this.polyhedronType = polyhedronType;
-    }
-
 
 }

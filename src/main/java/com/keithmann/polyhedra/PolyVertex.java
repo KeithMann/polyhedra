@@ -8,16 +8,17 @@ public class PolyVertex {
 
     private double[] coordinates;
 
-    public PolyVertex(double[] coordinates) {
-        this.coordinates = coordinates;
+    public PolyVertex()
+    {
+
     }
 
     public double[] getCoordinates() {
         return coordinates;
     }
 
-    public double getCoordinate(int dimension) {
-        return coordinates[dimension]; //coordinates[dimension];
+    public void setCoordinates(double[] coordinates) {
+        this.coordinates = coordinates;
     }
 
 }

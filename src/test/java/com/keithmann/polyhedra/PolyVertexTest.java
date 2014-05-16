@@ -15,7 +15,8 @@ public class PolyVertexTest {
 
     @BeforeMethod
     public void setUp() throws Exception {
-        polyVertex = new PolyVertex(new double[]{1.0,1.0,1.0});
+        polyVertex = new PolyVertex();
+        polyVertex.setCoordinates(new double[]{1.0,1.0,1.0});
     }
 
     @AfterMethod
@@ -35,8 +36,11 @@ public class PolyVertexTest {
 
     @Test
     public void testCoordinatesArePointInSpace() throws Exception {
+
+        double[] coordinates;
+        coordinates = polyVertex.getCoordinates();
         for (int i = 0; i < space.getNumberOfDimensions(); i++) {
-            Assert.assertNotNull(polyVertex.getCoordinate(i));
+            Assert.assertEquals(coordinates[i],1.0);
         }
     }
 
