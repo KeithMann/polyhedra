@@ -5,15 +5,13 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-
 /**
  * Created by kmann on 14-04-04.
  */
 public class PolyhedronTest {
 
     PolyhedronType polyhedronType;
-    PolyVertex polyVertex;
+    Vertex vertex;
     Space space;
     Polyhedron polyhedron;
 

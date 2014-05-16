@@ -4,11 +4,11 @@ package com.keithmann.polyhedra;
  * Created by kmann on 14-04-04.
  */
 
-public class PolyVertex {
+public class Vertex {
 
     private double[] coordinates;
 
-    public PolyVertex()
+    public Vertex()
     {
 
     }

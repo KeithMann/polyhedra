@@ -9,19 +9,24 @@ import java.util.Collection;
 public class Polyhedron {
 
     private PolyhedronType polyhedronType;
-    private Collection<PolyFace> polyFaces;
+
+    private Collection<Face> faces;
 
     public Polyhedron(PolyhedronType polyhedronType) {
         this.polyhedronType = polyhedronType;
-    } {
-
     }
 
     public PolyhedronType getPolyhedronType() {
         return polyhedronType;
     }
 
-    public void addPolyFace(PolyFace polyFace) {
-        polyFaces.add(polyFace);
+    public void addFace(Face face) {
+        faces.add(face);
     }
+
+    public Collection<Face> getFaces() {
+        return faces;
+    }
+
+
 }
