@@ -25,14 +25,14 @@ public class PolyhedronFactory {
         Polyhedron polyhedron;
         polyhedron = new Polyhedron(polyhedronType);
 
-        int numberOfHexagons;
+        int numberOfFaces;
 
         switch (polyhedronType) {
             case DODECAHEDRON:
                 numberOfFaces = 12;
                 break;
             case TRUNCATED_ICOSAHEDRON:
-                numberOfHexagons = 32;
+                numberOfFaces = 32;
                 break;
             default:
                 numberOfFaces = 0;
@@ -127,6 +127,5 @@ public class PolyhedronFactory {
             */
         }
     }
-    }
-
 }
+

@@ -9,16 +9,21 @@ public class FaceFactory {
 
     private static FaceFactory instance;
 
+
     private FaceFactory() {
 
     }
 
+
     public static FaceFactory getInstance() {
+
         if (instance == null) {
             instance = new FaceFactory();
         }
+
         return instance;
     }
+
 
     public Face makeFace(FaceType faceType) {
 
@@ -50,20 +55,27 @@ public class FaceFactory {
         return face;
     }
 
+
     private void assembleFace(Face face, int numberOfEdges) {
+
         makeEdges(face, numberOfEdges);
         joinEdges(face, numberOfEdges);
     }
 
+
     private void makeEdges(Face face, int numberOfEdges) {
+
         for (int i = 0; i < numberOfEdges; i++) {
+
             Edge edge;
             edge = EdgeFactory.getInstance().makeEdge(face);
             face.addEdge(edge);
         }
     }
 
+
     private void joinEdges(Face face, int numberOfEdges) {
+
         Edge[] edges;
         edges = face.getEdges().toArray(new Edge[numberOfEdges]);
 
@@ -76,7 +88,8 @@ public class FaceFactory {
                 vertexes[1] = edges[0].getVertexes()[0];
             }
 
+            edges[i].setVertexes(vertexes);
         }
-    }
 
+    }
 }
