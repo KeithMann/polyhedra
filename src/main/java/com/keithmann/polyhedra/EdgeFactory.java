@@ -3,7 +3,7 @@ package com.keithmann.polyhedra;
 /**
  * Created by kmann on 2014-05-14.
  */
-public class EdgeFactory {
+class EdgeFactory {
 
     private static EdgeFactory instance;
 
@@ -18,12 +18,11 @@ public class EdgeFactory {
         return instance;
     }
 
-    public Edge makeEdge(Face face) {
+    public Edge makeEdge() {
         Edge edge;
         edge = new Edge();
 
         edge.setVertexes(new Vertex[]{new Vertex(), new Vertex()});
-        edge.setFaces(new Face[]{face,null});
 
         return edge;
     }

@@ -3,7 +3,10 @@ package com.keithmann.polyhedra;
 /**
  * Created by kmann on 14-04-04.
  */
-public class Space {
+class Space {
+
+    // TODO Create Space factory
+    // TODO Take number of dimensions as a parameter from config or command line at run-time
 
     static final int NUMBER_OF_DIMENSIONS = 3;
     private static Space instance;

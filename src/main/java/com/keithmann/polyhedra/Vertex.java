@@ -4,7 +4,10 @@ package com.keithmann.polyhedra;
  * Created by kmann on 14-04-04.
  */
 
-public class Vertex {
+class Vertex {
+
+    // TODO Create vertex factory
+    // TODO Create coordinates class
 
     private double[] coordinates;
 

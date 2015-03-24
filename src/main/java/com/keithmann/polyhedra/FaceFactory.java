@@ -1,17 +1,27 @@
 package com.keithmann.polyhedra;
 
-import java.util.Collection;
+import java.util.EnumMap;
 
 /**
  * Created by kmann on 2014-05-14.
  */
-public class FaceFactory {
+ class FaceFactory {
+
+    private static EnumMap<FaceType, Integer> numberOfEdgesPerFace;
 
     private static FaceFactory instance;
 
 
     private FaceFactory() {
+        setupNumberOfEdgesPerFace();
+    }
 
+    private void setupNumberOfEdgesPerFace() {
+        numberOfEdgesPerFace = new EnumMap<FaceType, Integer>(FaceType.class);
+        numberOfEdgesPerFace.put(FaceType.TRIANGLE, 3);
+        numberOfEdgesPerFace.put(FaceType.SQUARE, 4);
+        numberOfEdgesPerFace.put(FaceType.PENTAGON, 5);
+        numberOfEdgesPerFace.put(FaceType.HEXAGON, 6);
     }
 
 
@@ -29,28 +39,7 @@ public class FaceFactory {
 
         Face face;
         face = new Face(faceType);
-
-        int numberOfEdges;
-
-        switch (faceType) {
-            case TRIANGLE:
-                numberOfEdges = 3;
-                break;
-            case SQUARE:
-                numberOfEdges = 4;
-                break;
-            case PENTAGON:
-                numberOfEdges = 5;
-                break;
-            case HEXAGON:
-                numberOfEdges = 6;
-                break;
-            default:
-                numberOfEdges = 0;
-                break;
-        }
-
-        assembleFace(face, numberOfEdges);
+        assembleFace(face, numberOfEdgesPerFace.get(faceType));
 
         return face;
     }
@@ -59,7 +48,7 @@ public class FaceFactory {
     private void assembleFace(Face face, int numberOfEdges) {
 
         makeEdges(face, numberOfEdges);
-        joinEdges(face, numberOfEdges);
+        connectEdges(face, numberOfEdges);
     }
 
 
@@ -68,13 +57,14 @@ public class FaceFactory {
         for (int i = 0; i < numberOfEdges; i++) {
 
             Edge edge;
-            edge = EdgeFactory.getInstance().makeEdge(face);
+            edge = EdgeFactory.getInstance().makeEdge();
             face.addEdge(edge);
+            edge.addFace(face);
         }
     }
 
 
-    private void joinEdges(Face face, int numberOfEdges) {
+    private void connectEdges(Face face, int numberOfEdges) {
 
         Edge[] edges;
         edges = face.getEdges().toArray(new Edge[numberOfEdges]);

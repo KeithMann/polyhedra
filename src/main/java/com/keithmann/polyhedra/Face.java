@@ -1,16 +1,16 @@
 package com.keithmann.polyhedra;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by kmann on 14-04-07.
  */
-public class Face {
+class Face {
 
 
     private FaceType faceType;
 
-    private Collection<Edge> edges;
+    private List<Edge> edges;
 
     public Face(FaceType faceType) {
         this.faceType = faceType;
@@ -20,12 +20,14 @@ public class Face {
         return faceType;
     }
 
-    public Collection<Edge> getEdges() {
+    public List<Edge> getEdges() {
         return edges;
     }
 
     public void addEdge(Edge edge) {
         edges.add(edge);
     }
+
+    public void setEdges(List<Edge> edges) {this.edges = edges;}
 
 }

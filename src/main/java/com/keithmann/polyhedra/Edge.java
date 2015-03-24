@@ -1,15 +1,15 @@
 package com.keithmann.polyhedra;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by kmann on 14-04-07.
  */
-public class Edge {
+class Edge {
 
     private Vertex[] vertexes;
 
-    private Face[] faces;
+    private List<Face> faces;
 
     public Edge() {
 
@@ -23,12 +23,12 @@ public class Edge {
         this.vertexes = vertexes;
     }
 
-    public Face[] getFaces() {
+    public List<Face> getFaces() {
         return faces;
     }
 
-    public void setFaces(Face[] faces) {
-        this.faces = faces;
+    public void addFace(Face face) {
+        this.faces.add(face);
     }
 
 }
