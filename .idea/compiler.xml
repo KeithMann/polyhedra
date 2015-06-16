@@ -25,6 +25,8 @@
         <module name="polyhedra" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="polyhedra" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>
-

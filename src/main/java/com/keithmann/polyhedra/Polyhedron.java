@@ -12,7 +12,7 @@ class Polyhedron {
 
     private List<Face> faces;
 
-    public Polyhedron(PolyhedronType polyhedronType) {
+    Polyhedron(PolyhedronType polyhedronType) {
         this.polyhedronType = polyhedronType;
     }
 
@@ -20,7 +20,7 @@ class Polyhedron {
         return polyhedronType;
     }
 
-    public void addFace(Face face) {
+    void addFace(Face face) {
         faces.add(face);
     }
 

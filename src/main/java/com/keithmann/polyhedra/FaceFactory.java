@@ -13,8 +13,14 @@ import java.util.EnumMap;
 
 
     private FaceFactory() {
+        setupFactory();
+    }
+
+    private void setupFactory() {
         setupNumberOfEdgesPerFace();
     }
+
+    private void teardownFactory() {}
 
     private void setupNumberOfEdgesPerFace() {
         numberOfEdgesPerFace = new EnumMap<FaceType, Integer>(FaceType.class);
@@ -23,7 +29,6 @@ import java.util.EnumMap;
         numberOfEdgesPerFace.put(FaceType.PENTAGON, 5);
         numberOfEdgesPerFace.put(FaceType.HEXAGON, 6);
     }
-
 
     public static FaceFactory getInstance() {
 

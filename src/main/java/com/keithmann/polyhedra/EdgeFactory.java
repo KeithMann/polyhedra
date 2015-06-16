@@ -8,8 +8,12 @@ class EdgeFactory {
     private static EdgeFactory instance;
 
     private EdgeFactory() {
-
+        setupFactory();
     }
+
+    private void setupFactory() {}
+
+    private void teardownFactory() {}
 
     public static EdgeFactory getInstance() {
         if (instance == null) {
@@ -22,9 +26,13 @@ class EdgeFactory {
         Edge edge;
         edge = new Edge();
 
-        edge.setVertexes(new Vertex[]{new Vertex(), new Vertex()});
+        assembleEdge(edge);
 
         return edge;
+    }
+
+    private void assembleEdge(Edge edge) {
+        edge.setVertexes(new Vertex[]{new Vertex(), new Vertex()});
     }
 
 }

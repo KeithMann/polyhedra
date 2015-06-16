@@ -16,10 +16,15 @@ class PolyhedronFactory {
     private static PolyhedronFactory instance;
 
     private PolyhedronFactory() {
+        setupFactory();
+    }
 
+    private void setupFactory() {
         setupNumberOfFacesPerPolyhedron();
         setupNumberOfTiersPerPolyhedron();
     }
+
+    private void teardownFactory() {}
 
     private void setupNumberOfTiersPerPolyhedron() {
         numberOfTiersPerPolyhedron.put(PolyhedronType.DODECAHEDRON, 2);
@@ -38,7 +43,7 @@ class PolyhedronFactory {
         return instance;
     }
 
-    // TODO Overload constructor with one that takes Coordinates initialCenterOfPolyhedron
+    // TODO Overload makePolyhedron with one that takes Coordinates initialCenterOfPolyhedron
     /* NOTE centerOfPolyhedron might not be a great name. Well, I mean, it IS the center initially, but we don't
     // want to hang on to it because it could change, and we're relying on the vertices to tell us about where
     // the poly is in space. It's more like "OK, what do you want to use as the point from which I calculate the
@@ -58,7 +63,8 @@ class PolyhedronFactory {
         Polyhedron polyhedron;
         polyhedron = new Polyhedron(polyhedronType);
 
-        assemblePolyhedron(polyhedron, numberOfFacesPerPolyhedron.get(polyhedronType), numberOfTiersPerPolyhedron.get(polyhedronType));
+        assemblePolyhedron(polyhedron, numberOfFacesPerPolyhedron.get(polyhedronType),
+                numberOfTiersPerPolyhedron.get(polyhedronType));
 
         return polyhedron;
 
