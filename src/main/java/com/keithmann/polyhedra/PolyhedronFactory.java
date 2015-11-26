@@ -63,28 +63,41 @@ class PolyhedronFactory {
         Polyhedron polyhedron;
         polyhedron = new Polyhedron(polyhedronType);
 
-        assemblePolyhedron(polyhedron, numberOfFacesPerPolyhedron.get(polyhedronType),
-                numberOfTiersPerPolyhedron.get(polyhedronType));
+        assemblePolyhedron(polyhedron);
 
         return polyhedron;
-
     }
 
-    private void assemblePolyhedron(Polyhedron polyhedron, int numberOfFaces, int numberOfTiers) {
+    private void assemblePolyhedron(Polyhedron polyhedron) {
 
-        makeFaces(polyhedron, numberOfFaces);
-        connectFaces(polyhedron, numberOfFaces, numberOfTiers);
-
+        makeTiers(polyhedron);
+        connectTiers(polyhedron);
     }
 
-    private void makeFaces(Polyhedron polyhedron, int numberOfFaces) {
+    private void makeTiers(Polyhedron polyhedron) {
+
+        int numberOfTiers = calculateNumberOfTiers(polyhedron.getPolyhedronType());
+
+        for (int tierNumber = 0; tierNumber < numberOfTiers; tierNumber++) {
+            makeTier(polyhedron, tierNumber);
+        }
+    }
+
+    private void makeTier(Polyhedron polyhedron, int tier) {
+
+        makeFaces(polyhedron);
+        connectFacesWithinTier(polyhedron);
+    }
+
+
+    private void makeFaces(Polyhedron polyhedron, int tier) {
+
         FaceFactory faceFactory = FaceFactory.getInstance();
 
-        makePentagons(polyhedron, faceFactory);
 
-        if (numberOfFaces > 12) {
-            makeHexagons(polyhedron, faceFactory, numberOfFaces);
-        }
+
+        makePentagons(polyhedron, faceFactory);
+        makeHexagons(polyhedron, faceFactory, numberOfFaces);
     }
 
     private void makePentagons(Polyhedron polyhedron, FaceFactory faceFactory) {
@@ -102,106 +115,125 @@ class PolyhedronFactory {
 
     private void connectFaces(Polyhedron polyhedron, int numberOfFaces, int numberOfTiers) {
 
-        connectTopFaceToFirstTierFaces(polyhedron, numberOfFaces);
-        connectFacesWithinTiers(polyhedron, numberOfFaces, numberOfTiers);
-        connectFacesAcrossTiers(polyhedron, numberOfFaces, numberOfTiers);
-        connectBottomFaceToLastTierFaces(polyhedron, numberOfFaces);
+        Face[] faces = polyhedron.getFaces().toArray(new Face[numberOfFaces]);
+
+        connectTopFaceToFirstTierFaces(faces);
+        connectFacesWithinTiers(faces, numberOfTiers);
+        connectFacesAcrossTiers(faces, numberOfTiers);
+        connectBottomFaceToLastTierFaces(faces);
     }
 
     // TODO connectTopFaceToFirstTierFaces and connectBottomFaceToLastTierFaces are very similar -- combine them
 
-    private void connectTopFaceToFirstTierFaces(Polyhedron polyhedron, int numberOfFaces) {
-
-        Face[] faces = polyhedron.getFaces().toArray(new Face[numberOfFaces]);
+    private void connectTopFaceToFirstTierFaces(Face[] faces) {
 
         Face topFace = faces[0];
-        Edge[] topFaceEdges = topFace.getEdges().toArray(new Edge[topFace.getEdges().size()]);
+        Edge[] topFaceEdges = getEdgesAsArray(topFace);
 
-        for (int i = 0; i < 5; i ++) {
+        int numberOfTopFaceEdges = topFaceEdges.length;
+
+        for (int i = 0; i < numberOfTopFaceEdges; i ++) {
 
             Edge topFaceEdge = topFaceEdges[i];
-
             Face firstTierFace = faces[i + 1];
-            topFaceEdge.addFace(firstTierFace);
 
-            List<Edge> firstTierFaceEdges = firstTierFace.getEdges();
-            firstTierFaceEdges.set(0,topFaceEdge);
-            firstTierFace.setEdges(firstTierFaceEdges);
+            connectEdgeToFace(topFaceEdge, firstTierFace);
         }
     }
 
-    private void connectBottomFaceToLastTierFaces(Polyhedron polyhedron, int numberOfFaces) {
 
-        Face[] faces = polyhedron.getFaces().toArray(new Face[numberOfFaces]);
+    // TODO extend to handle general case (this is just for dodecahedrons right now)
 
-        Face bottomFace = faces[numberOfFaces - 1];
-        Edge[] bottomFaceEdges = bottomFace.getEdges().toArray(new Edge[bottomFace.getEdges().size()]);
+    private void connectFacesWithinTiers(Face[] faces, int numberOfTiers) {
 
-        for (int i = 0; i < 5; i++) {
+        for (int tierNumber = 1; tierNumber <= numberOfTiers; tierNumber++) {
+            
+            if (tierNumber == 1) {
 
-            Edge bottomFaceEdge = bottomFaceEdges[i];
+                for (int fromFaceIndex = 1; fromFaceIndex < 6; fromFaceIndex++) {
 
-            Face lastTierFace = faces[numberOfFaces - 6 + i];
-            bottomFaceEdge.addFace(lastTierFace);
+                    Face fromFace = faces[fromFaceIndex];
+                    Face toFace = faces[calculateToFaceIndex(fromFaceIndex)];
 
-            List<Edge> lastTierFaceEdges = lastTierFace.getEdges();
-            lastTierFaceEdges.set(0, bottomFaceEdge);
-            lastTierFace.setEdges(lastTierFaceEdges);
-        }
-    }
+                    Edge[] fromFaceEdges = getEdgesAsArray(fromFace);
+                    Edge[] toFaceEdges = getEdgesAsArray(toFace);
 
-    // TODO refactor to handle general case (this is just for dodecahedrons right now)
+                    int numberOfFromFaceEdges = fromFaceEdges.length;
+                    
+                    // TODO Refactor this to better express intent of the algorithm
 
-    private void connectFacesWithinTiers(Polyhedron polyhedron, int numberOfFaces, int numberOfTiers) {
-
-        Face[] faces = polyhedron.getFaces().toArray(new Face[numberOfFaces]);
-
-        for (int tier = 1; tier <= numberOfTiers; tier++) {
-
-            switch (tier) {
-
-                case 1:
-
-                    for (int i = 1; i < 6; i++) {
-
-                        Face fromFace = faces[i];
-                        Face toFace;
-
-                        if (i < 5) {
-                            toFace = faces[i + 1];
+                    for (int fromEdgeIndex = 0; fromEdgeIndex < numberOfFromFaceEdges; fromEdgeIndex++) {
+                        if (fromEdgeIndex < (numberOfFromFaceEdges - 1)) {
+                            fromFaceEdges[fromEdgeIndex] = faces[fromFace + 1].getEdges().toArray(new Edge[faces[fromFace + 1].getEdges().size()])[0];
                         } else {
-                            toFace = faces[1];
-                        }
-
-                        Edge[] fromFaceEdges = fromFace.getEdges().toArray(new Edge[fromFace.getEdges().size()]);
-                        Edge[] toFaceEdges = toFace.getEdges().toArray(new Edge[toFace.getEdges().size()]);
-
-                        for (int fromEdge = 0; fromEdge < numberOfEdges; fromEdge++) {
-                            if (fromEdge < (numberOfEdges - 1)) {
-                                edges[fromEdge] = faces[fromFace + 1].getEdges().toArray(new Edge[faces[fromFace + 1].getEdges().size()])[0];
-                            } else {
-                                edges[0] = faces[0].getEdges().toArray(new Edge[faces[fromFace + 1].getEdges().size()])[0];
-                            }
+                            fromFaceEdges[0] = faces[0].getEdges().toArray(new Edge[faces[fromFace + 1].getEdges().size()])[0];
                         }
                     }
+                }
+            } else if (tierNumber == numberOfTiers) {
 
-                    break;
+                // TODO Figure out what to do
 
-                case numberOfTiers:
-
-                    break;
-
-                default:
-                    break;
             }
         }
     }
 
     // TODO put something between those braces
 
-    private void connectFacesAcrossTiersTiers(Polyhedron polyhedron, int numberOfFaces, int numberOfTiers) {
+    private void connectFacesAcrossTiers(Face[] faces, int numberOfTiers) {
 
     }
+
+    private void connectBottomFaceToLastTierFaces(Face[] faces) {
+
+        int numberOfFacesOnPolyhedron = faces.length;
+
+        Face bottomFace = faces[numberOfFacesOnPolyhedron - 1];
+        Edge[] bottomFaceEdges = getEdgesAsArray(bottomFace);
+
+        int numberOfBottomFaceEdges = bottomFaceEdges.length;
+
+        for (int i = 0; i < numberOfBottomFaceEdges; i++) {
+
+            Edge bottomFaceEdge = bottomFaceEdges[i];
+            Face lastTierFace = faces[numberOfFacesOnPolyhedron - 6 + i];
+
+            connectEdgeToFace(bottomFaceEdge, lastTierFace);
+        }
+    }
+
+    private Edge[] getEdgesAsArray(Face face) {
+        int numberOfEdges = face.getEdges().size();
+        Edge[] edges = getEdgesAsArray(face.getEdges().toArray(new Edge[numberOfEdges]);
+        return edges;
+    }
+
+    private int calculateToFaceIndex(int fromFaceNumber) {
+        int toFaceIndex;
+
+        if (fromFaceNumber < 5) {
+            toFaceIndex = i + 1;
+        } else {
+            toFaceIndex = 1;
+        }
+
+        return toFaceIndex;
+
+    }
+
+    private void connectEdgeToFace(Edge fromFaceEdge, Face toFace) {
+        fromFaceEdge.addFace(toFace);
+        mergeEdges(fromFaceEdge, toFace);
+    }
+
+    private void mergeEdges(Edge fromFaceEdge, Face toFace) {
+        List<Edge> toFaceEdges = toFace.getEdges();
+        toFaceEdges.set(0,fromFaceEdge);
+        toFace.setEdges(toFaceEdges);
+    }
+
+
+
 }
 
 
