@@ -4,13 +4,14 @@ package com.keithmann.polyhedra;
  * Created by kmann on 14-04-04.
  */
 
+import java.util.ArrayList;
 import java.util.List;
 
 class Polyhedron {
 
     private PolyhedronType polyhedronType;
 
-    private List<Face> faces;
+    private List<Face> faces = new ArrayList<Face>();
 
     Polyhedron(PolyhedronType polyhedronType) {
         this.polyhedronType = polyhedronType;

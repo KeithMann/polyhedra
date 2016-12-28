@@ -1,5 +1,6 @@
 package com.keithmann.polyhedra;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ class Edge {
 
     private Vertex[] vertexes;
 
-    private List<Face> faces;
+    private List<Face> faces = new ArrayList<Face>();
 
     public Edge() {
 
